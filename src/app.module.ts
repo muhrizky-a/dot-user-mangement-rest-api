@@ -1,24 +1,22 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { Module, NotFoundException } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './users/user.module';
-import { User } from './users/user.entity';
+import { UsersModule } from './users/users.module';
+import { Users } from './users/users.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({
-    envFilePath: '.env',
-    isGlobal: true
-  }),
-  TypeOrmModule.forRoot({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'dbuser',
-    password: 'secret',
-    database: 'usermgmt_db',
-    entities: [User],
-  }),
-    UserModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'dbuser',
+      password: 'secret',
+      database: 'usermgmt_db',
+      entities: [Users],
+      synchronize: true,
+    }),
+    UsersModule],
   controllers: [],
   providers: [],
 })
