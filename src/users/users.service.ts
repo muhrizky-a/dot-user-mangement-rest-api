@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Users } from './users.entity';
+import { hash, argon2id } from 'argon2';
 
 @Injectable()
 export class UsersService {
@@ -39,6 +40,18 @@ export class UsersService {
 
   async remove(user: Users): Promise<void> {
     await this.usersRepository.delete(user);
+  }
+
+  async createHashedPassword(password) {
+    const hashedPassword = await hash(
+      password,
+      {
+        type: argon2id,
+        raw: false
+      }
+    );
+
+    return hashedPassword;
   }
 
   mapDBToUserData(users: Users[]) {

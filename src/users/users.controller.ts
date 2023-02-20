@@ -2,14 +2,29 @@ import { Controller, Req, Param, Body, Post, Get, Put, Delete, Res, HttpStatus, 
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { Response } from 'express';
 import { UsersService } from 'src/users/users.service';
+import { Users } from './users.entity';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UsersService) { }
 
   @Post()
-  async create(@Body() data: Object, @Res() res: Response) {
-    const newUser = await this.userService.create(data);
+  async create(@Body() data: Users, @Res() res: Response) {
+    const {
+      name,
+      phone,
+      username,
+      password
+    } = data;
+
+    const hashedPassword = await this.userService.createHashedPassword(password);
+
+    const newUser = await this.userService.create({
+      name,
+      phone,
+      username,
+      password: hashedPassword
+    });
 
     res.status(HttpStatus.CREATED).json({
       statusCode: HttpStatus.CREATED,
