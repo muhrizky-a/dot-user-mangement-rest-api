@@ -4,13 +4,12 @@ import { UsersModule } from './users/users.module';
 import { Users } from './users/users.entity';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { DataSource } from 'typeorm';
+import { RolesModule } from './roles/roles.module';
+import { Roles } from './roles/roles.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(
-
-    ),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
@@ -21,13 +20,15 @@ import { DataSource } from 'typeorm';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Users],
+        entities: [Users, Roles],
         synchronize: true,
       }),
 
     }),
     UsersModule,
-    AuthModule],
+    AuthModule,
+    RolesModule,
+  ],
   controllers: [],
   providers: [],
 })
