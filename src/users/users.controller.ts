@@ -1,4 +1,4 @@
-import { Controller, Req, Param, Body, Post, Get, Put, Delete, Res, HttpStatus, UseFilters } from '@nestjs/common';
+import { Controller, Param, Body, Post, Get, Put, Delete, Res, HttpStatus, UseFilters } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { Response } from 'express';
 import { UsersService } from 'src/users/users.service';
