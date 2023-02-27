@@ -71,6 +71,7 @@ mysql > FLUSH PRIVILEGES;
 cd ~
 git clone https://github.com/muhrizky-a/dot-user-mangement-rest-api.git
 cd ~/dot-user-mangement-rest-api
+cp .env.example .env
 ```
 
 ## Install Node Packages
